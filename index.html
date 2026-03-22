@@ -1,9 +1,13 @@
 <!doctype html>
-<html lang="id" class="h-full">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Portfolio Desain | Sasmita Hidayatul Aziz</title>
+    
+    <!-- FAVICON ELEGAN (Logo Huruf S warna Indigo) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%236366f1'/><text x='50%' y='52%' font-family='Syne, sans-serif' font-weight='800' font-size='55' fill='white' text-anchor='middle' dominant-baseline='central'>S</text></svg>">
+
     <!-- Tailwind CSS untuk Styling Cepat -->
     <script src="https://cdn.tailwindcss.com/3.4.17"></script>
     <!-- Lucide Icons untuk Icon Modern yang Bersih -->
@@ -12,21 +16,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
     
     <style>
-        html, body { height: 100%; margin: 0; box-sizing: border-box; }
-        * { box-sizing: border-box; }
-
-        .app-wrapper {
+        /* --- PERBAIKAN SCROLL KANAN-KIRI --- */
+        html {
+            scroll-behavior: smooth; 
+            scroll-padding-top: 120px; /* Jarak scroll agar judul tidak tertutup menu */
+            overflow-x: hidden; /* Mengunci total scroll horizontal */
+        }
+        
+        body { 
+            margin: 0; 
+            box-sizing: border-box; 
             font-family: 'DM Sans', sans-serif;
             background: #0a0a0f;
             color: #e2e2e8;
+            overflow-x: hidden; /* Mengunci total scroll horizontal */
+            width: 100%;
+        }
+        
+        * { box-sizing: border-box; }
+
+        .app-wrapper {
             overflow-x: hidden;
-            scroll-behavior: smooth; 
-            scroll-padding-top: 120px; /* Disesuaikan untuk menu floating */
+            width: 100%;
+            position: relative;
         }
 
         .heading-font { font-family: 'Syne', sans-serif; }
 
-        /* --- EFEK OPENING NGEBLUR (Meniru komponen <RevealFx> di React) --- */
+        /* --- EFEK OPENING NGEBLUR --- */
         @keyframes initialBlur {
             0% { filter: blur(20px); opacity: 0; transform: scale(0.98) translateY(20px); }
             100% { filter: blur(0); opacity: 1; transform: scale(1) translateY(0); }
@@ -76,7 +93,7 @@
         }
         .reveal-item.visible { opacity: 1; transform: translateY(0); }
 
-        /* --- PREMIUM HOVER EFFECTS (Meniru komponen Modern Next.js) --- */
+        /* --- PREMIUM HOVER EFFECTS --- */
         .premium-hover {
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
@@ -141,9 +158,10 @@
 
         .section-line { height: 1px; background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), transparent); }
 
-        .app-wrapper::-webkit-scrollbar { width: 6px; }
-        .app-wrapper::-webkit-scrollbar-track { background: transparent; }
-        .app-wrapper::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.3); border-radius: 3px; }
+        /* Scrollbar custom */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.3); border-radius: 3px; }
 
         .stat-item:hover .stat-number { color: #6366f1; }
 
@@ -172,51 +190,52 @@
 
         .toast {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
-            z-index: 999; opacity: 0;
+            z-index: 9999; opacity: 0;
             transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     </style>
 </head>
-<body class="h-full">
-    <!-- Tambahan kelas animate-blur-in di sini untuk efek opening web -->
-    <div class="app-wrapper h-full overflow-auto w-full relative animate-blur-in" id="app-root">
-        <div class="grain-overlay"></div>
-        
-        <!-- --- FLOATING PILL NAVIGATION (Meniru template premium) --- -->
-        <!-- Mengubah nav menjadi kapsul melayang dengan margin atas (top-6) -->
-        <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 backdrop-blur-xl bg-[#0a0a0f]/60 border border-white/10 rounded-full w-[90%] max-w-5xl transition-all duration-300 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] hover:bg-[#0a0a0f]/80">
-            <div class="px-6 py-3.5 flex items-center justify-between">
-                <a href="#hero" class="heading-font text-xl font-bold tracking-tight">
-                    <span style="color:#6366f1;">●</span> <span>Studio</span>
-                </a>
-                <div class="hidden md:flex items-center gap-8 text-sm tracking-wide">
-                    <a href="#about" class="nav-link text-white/60">Tentang</a>
-                    <a href="#projects" class="nav-link text-white/60">Karya</a>
-                    <a href="#experience" class="nav-link text-white/60">Pengalaman</a>
-                    <a href="#contact" class="nav-link text-white/60">Kontak</a>
-                </div>
-                <div class="flex items-center gap-2 text-xs text-green-400 bg-green-400/10 px-3 py-1.5 rounded-full border border-green-400/20">
-                    <span class="w-1.5 h-1.5 bg-green-400 rounded-full pulse-dot inline-block"></span> 
-                    <span class="hidden sm:inline">Tersedia untuk kerja</span>
-                    <span class="sm:hidden">Available</span>
-                </div>
+<body>
+
+    <!-- --- PERBAIKAN MENU --- 
+         Menu Dikeluarkan dari dalam div animasi agar posisi 'fixed' tidak dirusak oleh efek blur/transform -->
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-[9999] backdrop-blur-xl bg-[#0a0a0f]/60 border border-white/10 rounded-full w-[90%] max-w-5xl transition-all duration-300 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] hover:bg-[#0a0a0f]/80">
+        <div class="px-6 py-3.5 flex items-center justify-between">
+            <a href="#hero" class="heading-font text-xl font-bold tracking-tight">
+                <span style="color:#6366f1;">●</span> <span>Studio</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8 text-sm tracking-wide">
+                <a href="#about" class="nav-link text-white/60">Tentang</a>
+                <a href="#projects" class="nav-link text-white/60">Karya</a>
+                <a href="#experience" class="nav-link text-white/60">Pengalaman</a>
+                <a href="#contact" class="nav-link text-white/60">Kontak</a>
             </div>
-        </nav>
+            <div class="flex items-center gap-2 text-xs text-green-400 bg-green-400/10 px-3 py-1.5 rounded-full border border-green-400/20">
+                <span class="w-1.5 h-1.5 bg-green-400 rounded-full pulse-dot inline-block"></span> 
+                <span class="hidden sm:inline">Tersedia untuk kerja</span>
+                <span class="sm:hidden">Available</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Pembungkus Efek Animasi Blur -->
+    <div class="app-wrapper relative animate-blur-in" id="app-root">
+        <div class="grain-overlay"></div>
 
         <!-- Hero Section -->
-        <section id="hero" class="relative min-h-[100%] flex items-center justify-center px-6 pt-20">
+        <section id="hero" class="relative min-h-screen flex items-center justify-center px-6 pt-20">
             <div class="orb orb-1"></div>
             <div class="orb orb-2"></div>
             <div class="max-w-4xl mx-auto text-center relative z-10">
                 <!-- Hover premium pada badge atas -->
                 <div class="anim-up delay-1 inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/10 bg-white/5 text-xs text-white/60 mb-8 premium-hover cursor-default">
                     <i data-lucide="pen-tool" style="width:14px;height:14px;color:#6366f1;"></i> 
-                    <span>UI/UX & Graphic Designer</span>
+                    <span>Graphic Designer</span>
                 </div>
                 
                 <h1 class="heading-font text-5xl sm:text-7xl md:text-8xl font-extrabold leading-[0.95] tracking-tight anim-up delay-2" style="color:#e2e2e8;">
-                    Sasmita<br><span style="color:#6366f1;">Hidayatul Aziz</span>
+                    Sasmita<br><span style="color:#6366f1;">Aziz</span>
                 </h1>
                 
                 <p class="text-lg sm:text-xl text-white/40 mt-6 max-w-xl mx-auto anim-up delay-3 leading-relaxed">
@@ -373,19 +392,19 @@
         <!-- Footer -->
         <footer class="border-t border-white/5 py-8 px-6">
             <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/25">
-                <p>© 2024 Andi Prasetyo. Dibuat dengan ❤️</p>
+                <p>© 2026 Sasmita Hidayatul Aziz</p>
                 <p>Desain Antarmuka & Identitas Visual</p>
             </div>
         </footer>
 
-        <!-- Toast Notification -->
-        <div class="toast" id="toast-msg">
-            <div class="flex items-center gap-3 px-5 py-3 rounded-xl border border-green-500/20 bg-[#0a0a0f] shadow-2xl">
-                <i data-lucide="check-circle" style="width:18px;height:18px;color:#22c55e;"></i> 
-                <span class="text-sm text-green-400" id="toast-text">Pesan berhasil dikirim!</span>
-            </div>
-        </div>
+    </div>
 
+    <!-- Toast Notification -->
+    <div class="toast" id="toast-msg">
+        <div class="flex items-center gap-3 px-5 py-3 rounded-xl border border-green-500/20 bg-[#0a0a0f] shadow-2xl">
+            <i data-lucide="check-circle" style="width:18px;height:18px;color:#22c55e;"></i> 
+            <span class="text-sm text-green-400" id="toast-text">Pesan berhasil dikirim!</span>
+        </div>
     </div>
 
     <!-- JAVASCRIPT UNTUK DATA DESAINER -->

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Desain | Andi Prasetyo</title>
+    <title>Portfolio Desain | Sasmita Hidayatul Aziz</title>
     <!-- Tailwind CSS untuk Styling Cepat -->
     <script src="https://cdn.tailwindcss.com/3.4.17"></script>
     <!-- Lucide Icons untuk Icon Modern yang Bersih -->
@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
     
     <style>
-        html, body { height: 100%; margin: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        html, body { height: 100%; margin: 0; box-sizing: border-box; }
         * { box-sizing: border-box; }
 
         .app-wrapper {
@@ -20,11 +20,22 @@
             background: #0a0a0f;
             color: #e2e2e8;
             overflow-x: hidden;
+            scroll-behavior: smooth; 
+            scroll-padding-top: 120px; /* Disesuaikan untuk menu floating */
         }
 
         .heading-font { font-family: 'Syne', sans-serif; }
 
-        /* Efek bintik-bintik (Grain overlay) ala desain modern */
+        /* --- EFEK OPENING NGEBLUR (Meniru komponen <RevealFx> di React) --- */
+        @keyframes initialBlur {
+            0% { filter: blur(20px); opacity: 0; transform: scale(0.98) translateY(20px); }
+            100% { filter: blur(0); opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .animate-blur-in {
+            animation: initialBlur 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        /* Grain overlay */
         .grain-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -35,7 +46,7 @@
             background-size: 128px 128px;
         }
 
-        /* Bola cahaya bercahaya (Glow orbs) di background */
+        /* Bola cahaya bercahaya (Glow orbs) */
         .orb {
             position: absolute;
             border-radius: 50%;
@@ -47,20 +58,17 @@
         .orb-2 { width: 400px; height: 400px; background: #06b6d4; bottom: -100px; left: -100px; }
         .orb-3 { width: 350px; height: 350px; background: #a855f7; top: 50%; left: 50%; transform: translate(-50%, -50%); }
 
-        /* Animasi Keren (Stagger animations) */
+        /* Stagger animations */
         @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         
         .anim-up { animation: fadeSlideUp 0.8s ease-out both; }
-        .anim-scale { animation: scaleIn 0.7s ease-out both; }
+        .delay-1 { animation-delay: 0.3s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.55s; }
+        .delay-4 { animation-delay: 0.7s; }
+        .delay-5 { animation-delay: 0.85s; }
 
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.35s; }
-        .delay-4 { animation-delay: 0.5s; }
-        .delay-5 { animation-delay: 0.65s; }
-
-        /* Efek Muncul saat di-scroll (Intersection observer reveal) */
+        /* Intersection observer reveal */
         .reveal-item {
             opacity: 0;
             transform: translateY(30px);
@@ -68,7 +76,17 @@
         }
         .reveal-item.visible { opacity: 1; transform: translateY(0); }
 
-        /* Efek hover pada kartu proyek */
+        /* --- PREMIUM HOVER EFFECTS (Meniru komponen Modern Next.js) --- */
+        .premium-hover {
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .premium-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.5);
+            border-color: rgba(99, 102, 241, 0.5) !important;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
         .project-card {
             position: relative;
             overflow: hidden;
@@ -86,19 +104,8 @@
         .project-card:hover::before { opacity: 1; }
         .project-card:hover {
             border-color: rgba(99,102,241,0.3);
-            transform: translateY(-6px);
-            box-shadow: 0 20px 60px rgba(99,102,241,0.1);
-        }
-
-        /* Kapsul Skill */
-        .skill-pill {
-            border: 1px solid rgba(255,255,255,0.08);
-            transition: all 0.3s ease;
-        }
-        .skill-pill:hover {
-            border-color: rgba(99,102,241,0.5);
-            background: rgba(99,102,241,0.1);
-            transform: translateY(-2px);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -10px rgba(99,102,241,0.2);
         }
 
         /* Nav link garis bawah */
@@ -110,11 +117,10 @@
         .nav-link:hover::after { width: 100%; }
         .nav-link:hover { color: #6366f1; }
 
-        /* Titik hijau berdenyut */
         @keyframes pulse-dot { 0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); } 50% { box-shadow: 0 0 0 6px rgba(34,197,94,0); } }
         .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
 
-        /* Tombol Utama (Magnetic button) */
+        /* Magnetic button dengan Glow Overlay */
         .magnetic-btn {
             position: relative; overflow: hidden;
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
@@ -125,36 +131,33 @@
             opacity: 0; transition: opacity 0.4s ease;
         }
         .magnetic-btn:hover::before { opacity: 1; }
-        .magnetic-btn:hover { transform: scale(1.05); box-shadow: 0 10px 40px rgba(99,102,241,0.3); }
+        .magnetic-btn:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 15px 35px -5px rgba(99,102,241,0.4); 
+        }
 
-        /* Indikator scroll ke bawah */
         @keyframes bounce-scroll { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
         .scroll-indicator { animation: bounce-scroll 2s ease-in-out infinite; }
 
-        /* Garis Pemisah Section */
         .section-line { height: 1px; background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), transparent); }
 
-        /* Custom scrollbar untuk mempercantik pinggiran layar */
         .app-wrapper::-webkit-scrollbar { width: 6px; }
         .app-wrapper::-webkit-scrollbar-track { background: transparent; }
         .app-wrapper::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.3); border-radius: 3px; }
 
         .stat-item:hover .stat-number { color: #6366f1; }
 
-        /* Titik Timeline Pengalaman */
         .timeline-dot {
             width: 12px; height: 12px;
             border: 2px solid #6366f1; border-radius: 50%;
             background: #0a0a0f; transition: all 0.3s ease;
         }
-        .timeline-item:hover .timeline-dot { background: #6366f1; box-shadow: 0 0 12px rgba(99,102,241,0.5); }
+        .timeline-item:hover .timeline-dot { background: #6366f1; box-shadow: 0 0 15px rgba(99,102,241,0.6); }
 
-        /* Marquee Teks Berjalan */
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .marquee-track { animation: marquee 25s linear infinite; }
         .marquee-track:hover { animation-play-state: paused; }
 
-        /* Form Input */
         .form-input {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.08);
@@ -164,9 +167,9 @@
             border-color: rgba(99,102,241,0.5);
             box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
             outline: none;
+            background: rgba(255,255,255,0.05);
         }
 
-        /* Notifikasi (Toast) */
         .toast {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
             z-index: 999; opacity: 0;
@@ -176,13 +179,14 @@
     </style>
 </head>
 <body class="h-full">
-    <div class="app-wrapper h-full overflow-auto w-full relative" id="app-root">
-        <!-- Background Grain Overlay -->
+    <!-- Tambahan kelas animate-blur-in di sini untuk efek opening web -->
+    <div class="app-wrapper h-full overflow-auto w-full relative animate-blur-in" id="app-root">
         <div class="grain-overlay"></div>
         
-        <!-- Navigation -->
-        <nav class="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-[#0a0a0f]/70 border-b border-white/5">
-            <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        <!-- --- FLOATING PILL NAVIGATION (Meniru template premium) --- -->
+        <!-- Mengubah nav menjadi kapsul melayang dengan margin atas (top-6) -->
+        <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 backdrop-blur-xl bg-[#0a0a0f]/60 border border-white/10 rounded-full w-[90%] max-w-5xl transition-all duration-300 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] hover:bg-[#0a0a0f]/80">
+            <div class="px-6 py-3.5 flex items-center justify-between">
                 <a href="#hero" class="heading-font text-xl font-bold tracking-tight">
                     <span style="color:#6366f1;">●</span> <span>Studio</span>
                 </a>
@@ -192,8 +196,10 @@
                     <a href="#experience" class="nav-link text-white/60">Pengalaman</a>
                     <a href="#contact" class="nav-link text-white/60">Kontak</a>
                 </div>
-                <div class="flex items-center gap-2 text-xs text-green-400">
-                    <span class="w-2 h-2 bg-green-400 rounded-full pulse-dot inline-block"></span> Tersedia untuk kerja
+                <div class="flex items-center gap-2 text-xs text-green-400 bg-green-400/10 px-3 py-1.5 rounded-full border border-green-400/20">
+                    <span class="w-1.5 h-1.5 bg-green-400 rounded-full pulse-dot inline-block"></span> 
+                    <span class="hidden sm:inline">Tersedia untuk kerja</span>
+                    <span class="sm:hidden">Available</span>
                 </div>
             </div>
         </nav>
@@ -203,13 +209,14 @@
             <div class="orb orb-1"></div>
             <div class="orb orb-2"></div>
             <div class="max-w-4xl mx-auto text-center relative z-10">
-                <div class="anim-up delay-1 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-xs text-white/60 mb-8">
+                <!-- Hover premium pada badge atas -->
+                <div class="anim-up delay-1 inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/10 bg-white/5 text-xs text-white/60 mb-8 premium-hover cursor-default">
                     <i data-lucide="pen-tool" style="width:14px;height:14px;color:#6366f1;"></i> 
                     <span>UI/UX & Graphic Designer</span>
                 </div>
                 
                 <h1 class="heading-font text-5xl sm:text-7xl md:text-8xl font-extrabold leading-[0.95] tracking-tight anim-up delay-2" style="color:#e2e2e8;">
-                    Visual<br><span style="color:#6366f1;">Designer</span>
+                    Sasmita<br><span style="color:#6366f1;">Hidayatul Aziz</span>
                 </h1>
                 
                 <p class="text-lg sm:text-xl text-white/40 mt-6 max-w-xl mx-auto anim-up delay-3 leading-relaxed">
@@ -225,7 +232,8 @@
                             <i data-lucide="palette" style="width:16px;height:16px;"></i> Lihat Portofolio
                         </span>
                     </a>
-                    <a href="#contact" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-medium text-white/70 border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-300">
+                    <!-- Menambahkan premium-hover pada tombol sekunder -->
+                    <a href="#contact" class="premium-hover inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-medium text-white/70 border border-white/10 bg-white/5 transition-all duration-300">
                         <i data-lucide="mail" style="width:16px;height:16px;"></i> Hubungi Saya
                     </a>
                 </div>
@@ -244,7 +252,6 @@
                 <span class="text-6xl font-extrabold heading-font text-white/[0.03] px-8">BRANDING</span> <span class="text-6xl font-extrabold heading-font text-white/[0.03] px-8">●</span>
                 <span class="text-6xl font-extrabold heading-font text-white/[0.03] px-8">WEB DESIGN</span> <span class="text-6xl font-extrabold heading-font text-white/[0.03] px-8">●</span>
                 <span class="text-6xl font-extrabold heading-font text-white/[0.03] px-8">ILLUSTRATION</span> <span class="text-6xl font-extrabold heading-font text-white/[0.03] px-8">●</span>
-                <!-- Ulangi teks agar loop tidak putus -->
                 <span class="text-6xl font-extrabold heading-font text-white/[0.03] px-8">UI/UX</span> <span class="text-6xl font-extrabold heading-font text-white/[0.03] px-8">●</span>
                 <span class="text-6xl font-extrabold heading-font text-white/[0.03] px-8">FIGMA</span> <span class="text-6xl font-extrabold heading-font text-white/[0.03] px-8">●</span>
                 <span class="text-6xl font-extrabold heading-font text-white/[0.03] px-8">BRANDING</span> <span class="text-6xl font-extrabold heading-font text-white/[0.03] px-8">●</span>
@@ -268,15 +275,16 @@
                             Saya adalah seorang desainer dengan ketertarikan mendalam pada estetika minimalis dan penyelesaian masalah melalui visual. Saya percaya bahwa desain bukan hanya tentang bagaimana sesuatu terlihat, melainkan bagaimana sesuatu itu berfungsi.
                         </p>
                         <div class="grid grid-cols-3 gap-6 mt-10">
-                            <div class="stat-item text-center p-4 rounded-xl border border-white/5 bg-white/[0.02]">
+                            <!-- Premium hover pada stat card -->
+                            <div class="stat-item premium-hover text-center p-4 rounded-xl border border-white/5 bg-white/[0.02]">
                                 <p class="heading-font text-3xl font-bold stat-number" style="color:#6366f1;">3+</p>
                                 <p class="text-xs text-white/40 mt-1">Tahun Pengalaman</p>
                             </div>
-                            <div class="stat-item text-center p-4 rounded-xl border border-white/5 bg-white/[0.02]">
+                            <div class="stat-item premium-hover text-center p-4 rounded-xl border border-white/5 bg-white/[0.02]">
                                 <p class="heading-font text-3xl font-bold stat-number" style="color:#6366f1;">50+</p>
                                 <p class="text-xs text-white/40 mt-1">Desain Selesai</p>
                             </div>
-                            <div class="stat-item text-center p-4 rounded-xl border border-white/5 bg-white/[0.02]">
+                            <div class="stat-item premium-hover text-center p-4 rounded-xl border border-white/5 bg-white/[0.02]">
                                 <p class="heading-font text-3xl font-bold stat-number" style="color:#6366f1;">20+</p>
                                 <p class="text-xs text-white/40 mt-1">Klien Puas</p>
                             </div>
@@ -285,7 +293,6 @@
                     
                     <div class="reveal-item">
                         <h3 class="heading-font text-lg font-semibold mb-5" style="color:#e2e2e8;">Keahlian Teknis</h3>
-                        <!-- Daftar skill akan dimuat lewat JavaScript di bawah -->
                         <div class="flex flex-wrap gap-2.5" id="skills-container"></div>
                     </div>
                 </div>
@@ -303,7 +310,6 @@
                     <h2 class="heading-font text-4xl sm:text-5xl font-bold mb-4" style="color:#e2e2e8;">Karya <span style="color:#6366f1;">Terpilih</span></h2>
                     <div class="w-20 h-0.5 mb-12" style="background:#6366f1;"></div>
                 </div>
-                <!-- Grid proyek akan dimuat lewat JavaScript di bawah -->
                 <div class="grid md:grid-cols-2 gap-6" id="projects-grid"></div>
             </div>
         </section>
@@ -318,7 +324,6 @@
                     <h2 class="heading-font text-4xl sm:text-5xl font-bold mb-4" style="color:#e2e2e8;">Perjalanan <span style="color:#6366f1;">Karir</span></h2>
                     <div class="w-20 h-0.5 mb-12" style="background:#6366f1;"></div>
                 </div>
-                <!-- Timeline akan dimuat lewat JavaScript di bawah -->
                 <div class="space-y-0" id="timeline-container"></div>
             </div>
         </section>
@@ -356,10 +361,11 @@
                 </form>
                 
                 <div class="flex items-center justify-center gap-6 mt-14 reveal-item">
-                    <a href="#" class="w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/50 hover:text-white hover:border-indigo-500/50 hover:bg-indigo-500/10 transition-all duration-300"><i data-lucide="instagram" style="width:18px;height:18px;"></i></a>
-                    <a href="#" class="w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/50 hover:text-white hover:border-indigo-500/50 hover:bg-indigo-500/10 transition-all duration-300"><i data-lucide="linkedin" style="width:18px;height:18px;"></i></a>
-                    <a href="#" class="w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/50 hover:text-white hover:border-indigo-500/50 hover:bg-indigo-500/10 transition-all duration-300"><i data-lucide="dribbble" style="width:18px;height:18px;"></i></a>
-                    <a href="#" class="w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/50 hover:text-white hover:border-indigo-500/50 hover:bg-indigo-500/10 transition-all duration-300"><i data-lucide="figma" style="width:18px;height:18px;"></i></a>
+                    <!-- Menambahkan premium-hover pada ikon sosmed -->
+                    <a href="#" class="premium-hover w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/50 hover:text-white transition-all duration-300"><i data-lucide="instagram" style="width:18px;height:18px;"></i></a>
+                    <a href="#" class="premium-hover w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/50 hover:text-white transition-all duration-300"><i data-lucide="linkedin" style="width:18px;height:18px;"></i></a>
+                    <a href="#" class="premium-hover w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/50 hover:text-white transition-all duration-300"><i data-lucide="dribbble" style="width:18px;height:18px;"></i></a>
+                    <a href="#" class="premium-hover w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/50 hover:text-white transition-all duration-300"><i data-lucide="figma" style="width:18px;height:18px;"></i></a>
                 </div>
             </div>
         </section>
@@ -384,14 +390,27 @@
 
     <!-- JAVASCRIPT UNTUK DATA DESAINER -->
     <script>
-        // 1. DATA SKILL (Bisa kamu edit disini)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
         const skills = [
             'Figma', 'Adobe Illustrator', 'Adobe Photoshop', 'UI/UX Design', 
             'Wireframing', 'Prototyping', 'Branding Identity', 'Typography', 
             'Social Media Design', 'Web Design'
         ];
 
-        // 2. DATA PROYEK (Bisa kamu edit disini)
         const projects = [
             { 
                 title: 'Desain Aplikasi E-Commerce', 
@@ -423,7 +442,6 @@
             }
         ];
 
-        // 3. DATA PENGALAMAN (Bisa kamu edit disini)
         const experience = [
             { 
                 year: '2022 — Sekarang', 
@@ -445,14 +463,10 @@
             }
         ];
 
-        // --- FUNGSI RENDER (Tidak perlu diedit kecuali paham) --- //
-        
-        // Render Skills
         document.getElementById('skills-container').innerHTML = skills.map(s => 
             `<span class="skill-pill px-4 py-2 rounded-full text-xs text-white/60 cursor-default">${s}</span>`
         ).join('');
 
-        // Render Projects
         document.getElementById('projects-grid').innerHTML = projects.map((p, i) => `
             <div class="project-card rounded-2xl p-6 bg-gradient-to-br ${p.gradient} backdrop-blur-sm reveal-item" style="transition-delay:${i*0.1}s">
                 <div class="relative z-10">
@@ -472,7 +486,6 @@
             </div>
         `).join('');
 
-        // Render Timeline
         document.getElementById('timeline-container').innerHTML = experience.map((e, i) => `
             <div class="timeline-item reveal-item flex gap-6 pb-10 relative" style="transition-delay:${i*0.15}s">
                 <div class="flex flex-col items-center">
@@ -488,10 +501,8 @@
             </div>
         `).join('');
 
-        // Inisialisasi Icon Lucide
         lucide.createIcons();
 
-        // Efek Muncul saat scroll (Intersection Observer)
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
@@ -500,7 +511,6 @@
             document.querySelectorAll('.reveal-item').forEach(el => observer.observe(el));
         }, 100);
 
-        // Notifikasi Form Kontak
         document.getElementById('contact-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const t = document.getElementById('toast-msg');

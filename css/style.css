@@ -1,0 +1,203 @@
+/* --- RESET & VARIABLES (Dasar) --- */
+:root {
+    --bg-dark: #0a0a0c;        /* Hitam Pekat */
+    --bg-card: #16161a;        /* Hitam Kartu */
+    --text-primary: #e1e1e6;   /* Putih Keabuan */
+    --text-secondary: #a1a1aa; /* Abu-abu */
+    --accent: #79ffe1;         /* Cyan Terang (Warna Gacor) */
+    --accent-hover: #50e3c2;   /* Cyan Gelap saat di hover */
+    --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    scroll-behavior: smooth; /* Scrolling halus ke section */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+a { text-decoration: none; color: inherit; transition: var(--transition); }
+ul { list-style: none; }
+h1, h2, h3 { font-weight: 700; color: #fff; }
+
+/* --- BUTTONS & ACCENTS (Tombol) --- */
+span { color: var(--accent); } /* Untuk menghighlight kata */
+
+.btn-primary {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: var(--accent);
+    color: #000;
+    font-weight: 600;
+    border-radius: 6px;
+    border: 2px solid var(--accent);
+}
+.btn-primary:hover {
+    background-color: transparent;
+    color: var(--accent);
+}
+
+.btn-secondary {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: transparent;
+    border: 2px solid #3f3f46;
+    color: var(--text-secondary);
+    border-radius: 6px;
+}
+.btn-secondary:hover {
+    border-color: #fff;
+    color: #fff;
+}
+
+/* --- NAVBAR STYLES --- */
+.navbar {
+    position: fixed; /* Nempel di atas */
+    top: 0; width: 100%;
+    background-color: rgba(10, 10, 12, 0.9);
+    backdrop-filter: blur(10px); /* Efek blur kaca */
+    z-index: 1000;
+    padding: 20px 0;
+}
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo { font-size: 1.4rem; font-weight: 800; letter-spacing: 1px; color: #fff;}
+.logo span { font-weight: 300; opacity: 0.7; }
+
+.nav-links { display: flex; gap: 30px; align-items: center; }
+.nav-links a:not(.btn-sm):hover { color: var(--accent); }
+.nav-links .btn-sm {
+    padding: 8px 18px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+.nav-links .btn-sm:hover { background-color: var(--accent); color: #000; }
+
+/* --- HERO SECTION --- */
+.hero {
+    height: 100vh; /* Full tinggi layar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 80px; /* Menghindari tabrakan navbar */
+}
+.hero h5 {
+    color: var(--accent);
+    letter-spacing: 3px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+.hero h1 {
+    font-size: 3.8rem;
+    line-height: 1.1;
+    max-width: 800px;
+    margin-bottom: 25px;
+}
+.hero p {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+}
+.hero-btns { display: flex; gap: 20px; justify-content: center; }
+
+/* --- PORTFOLIO SECTION (Dinamis Grid) --- */
+.portfolio { padding: 100px 0; background-color: #111114; }
+.section-title { text-align: center; margin-bottom: 70px; }
+.section-title h2 { font-size: 2.5rem; margin-bottom: 15px; }
+.section-title p { color: var(--text-secondary); max-width: 500px; margin: 0 auto; }
+
+.portfolio-grid {
+    display: grid;
+    /* Ini rahasia grid dinamis: otomatis menyesuaikan kolom di HP/PC tanpa ribet */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.portfolio-item {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 350px;
+}
+.portfolio-item img {
+    width: 100%; height: 100%;
+    object-fit: cover; /* Gambar pas di frame */
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* UI/UX Overlay Effect: Muncul saat di hover */
+.portfolio-overlay {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(0deg, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0) 80%);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    opacity: 0; /* Tersembunyi */
+    transition: var(--transition);
+    transform: translateY(20px);
+}
+
+.portfolio-item:hover img { transform: scale(1.1); }
+.portfolio-item:hover .portfolio-overlay {
+    opacity: 1; /* Muncul saat di hover */
+    transform: translateY(0);
+}
+
+.portfolio-overlay h3 { font-size: 1.3rem; margin-bottom: 8px; color: #fff;}
+.portfolio-overlay p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+.view-project {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+.view-project i { margin-left: 5px; transition: transform 0.3s ease; }
+.view-project:hover i { transform: translateX(5px); } /* Efek arrow bergerak */
+
+/* --- FOOTER SECTION --- */
+footer { padding: 100px 0 50px 0; text-align: center; background-color: var(--bg-dark); }
+.footer-content h2 { font-size: 2.5rem; margin-bottom: 20px; }
+.footer-content p { color: var(--text-secondary); margin-bottom: 40px; }
+.email-btn { font-size: 1.2rem; }
+
+.social-links { display: flex; justify-content: center; gap: 30px; margin-top: 60px; margin-bottom: 60px;}
+.social-links a { font-size: 1.6rem; color: #3f3f46; }
+.social-links a:hover { color: var(--accent); transform: translateY(-5px); }
+
+.copyright { font-size: 0.85rem; color: #27272a !important; margin-top: 40px;}
+
+/* --- RESPONSIVE BREAKPOINTS (Biar gak rusak di HP) --- */
+@media (max-width: 768px) {
+    .hero h1 { font-size: 2.5rem; }
+    .hero p { font-size: 1rem; }
+    .nav-links { display: none; } /* Hide menu di HP, buat hamburger menu butuh JS nanti */
+    .hero-btns { flex-direction: column; gap: 10px; }
+}
